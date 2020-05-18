@@ -10,10 +10,11 @@ function list() {
     echo -e "--php-sinks\t--php-sources\t--s3-buckets"
     echo -e "--sec\t\t--servers\t--strings"
     echo -e "--takeovers\t--upload-fields\t--urls"
+    echo -e "--no-protocol\t"
 }
 
 function helpmenu() {
-    echo "bgf - All bugbounty recon tools in one place!"
+    echo "bgf - A wrapper around grep to avoid typing common patterns."
     echo "Version: 1.0.0"
     echo ""
     echo "Usage: bgf --[options]"
@@ -23,7 +24,7 @@ function helpmenu() {
 }
 
 function xss() {
-    grep --color -HanE $FILE \
+    grep --color -HanrE $FILE \
 	-e callback= \
     -e jsonp= \
     -e api_key= \
@@ -332,4 +333,14 @@ function upload-fields() {
 function urls() {
     grep -oriahE $FILE \
     -e "https?://[^\"\\'> ]+"
+}
+
+function no-protocol() {
+    grep -iEo $FILE \
+    -e "[^https://|http://].*"
+}
+
+function wordlist() {
+    grep -iEo $FILE \
+    -e "[^https://].+[^-\.@a-z.com]"
 }

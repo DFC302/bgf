@@ -29,4 +29,6 @@ complete -W \
 --takeovers \
 --upload-fields \
 --urls \
---help" bgf
+--help \
+--no-protocol \
+--wordlist" bgf

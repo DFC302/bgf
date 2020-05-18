@@ -123,6 +123,14 @@ else
 				FILE=$2
 				urls
 				;;
+			--no-protocol)
+				FILE=$2
+				no-protocol
+				;;
+			--wordlist)
+				FILE=$2
+				wordlist
+				;;
 		esac
 		shift
 	done
