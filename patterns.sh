@@ -11,8 +11,8 @@ function list() {
     echo -e "--sec\t\t--servers\t--strings"
     echo -e "--takeovers\t--upload-fields\t--urls"
     echo -e "--no-protocol\t--debug-logic\t--idor"
-    echo -e "--lfi\t--rce\t--sqli"
-    echo -e "--ssrf\t--ssti"
+    echo -e "--lfi\t\t--rce\t\t--sqli"
+    echo -e "--ssrf\t\t--ssti"
 }
 
 function helpmenu() {
