@@ -1,5 +1,8 @@
 #!/bin/bash
-. ~/bgf/functions.sh
+
+# Source the patterns file
+# If you move bgf to a new directroy other than home, you will need to adjust this!
+. ~/bgf/patterns.sh
 
 if [ $# -eq 0 ] ; then
 	helpmenu
