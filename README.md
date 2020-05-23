@@ -6,9 +6,9 @@ A wrapper around grep to avoid typing common patterns.
 
 # Why though?
 I re-wrote this awesome tool in bash for the following reasons:
-1. People have issues configuring golang.
-2. People don't want golang installed on their system.
-3. People just would prefer to use bash.
+1. People may have issues configuring golang.
+2. People may not want golang installed on their system.
+3. People may prefer to use bash instead.
 
 # Pattern files
 The pattern files are stored in a separate file called patterns.sh as functions. \
@@ -26,7 +26,8 @@ Like so:
 ```
 ~/bgf/patterns.sh
 ```
-If you plan to move bgf into a different directory, you will need to change this sourced directory. 
+If you plan to move bgf into a different directory, you will need to change this sourced directory. \
+You will also need to edit the alias in your \.bash_aliases file to match the changed directory.
 
 Example: \
 If I moved bgf to *~/tools/* then I need to source the directory like so:
