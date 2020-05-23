@@ -2,8 +2,10 @@
 
 # Use directory bgf is stored in
 DIRECTORY=~/bgf
+# Specify user that will have bgf installed for
 USER=
-ALIAS_FILE=
+# If you use another alias file name for whatever reason, you can change it here
+ALIAS_FILE=.bash_aliases
 
 if [ ~/.bash_aliases ] ; then
 	echo -e "\n# bgf" >> ~/${ALIAS_FILE} ;
