@@ -10,7 +10,9 @@ function list() {
     echo -e "--php-sinks\t--php-sources\t--s3-buckets"
     echo -e "--sec\t\t--servers\t--strings"
     echo -e "--takeovers\t--upload-fields\t--urls"
-    echo -e "--no-protocol\t"
+    echo -e "--no-protocol\t--debug-logic\t--idor"
+    echo -e "--lfi\t--rce\t--sqli"
+    echo -e "--ssrf\t--ssti"
 }
 
 function helpmenu() {
@@ -24,7 +26,7 @@ function helpmenu() {
 }
 
 function xss() {
-    grep --color -HanrE $FILE \
+    grep --color -HanE $FILE \
 	-e callback= \
     -e jsonp= \
     -e api_key= \
@@ -47,29 +49,66 @@ function xss() {
 
 function redirect() {
     grep --color -HanE $FILE \
-	-e url= \
-	-e from_url= \
-	-e load_url= \
-	-e file_url= \
-	-e page_url= \
-	-e file_name= \
-	-e page= \
-	-e folder= \
-	-e folder_url= \
-	-e login_url= \
- 	-e img_url= \
-    -e return_url= \
-    -e return_to= \
-    -e next= \
-    -e redirect= \
-    -e redirect_to= \
-    -e logout= \
+	-e callback= \
+    -e cgi-bin/redirect.cgi \
     -e checkout= \
     -e checkout_url= \
-    -e goto= \
-    -e next_page= \
+    -e continue= \
+    -e data= \
+    -e dest= \
+    -e destination= \
+    -e dir= \
+    -e domain= \
+    -e feed= \
     -e file= \
-    -e load_file=
+    -e file_name= \
+    -e file_url= \
+    -e folder= \
+    -e folder_url= \
+    -e forward= \
+    -e from_url= \
+    -e go= \
+    -e goto= \
+    -e host= \
+    -e html= \
+    -e image_url= \
+    -e img_url= \
+    -e load_file= \
+    -e load_url= \
+    -e login_url= \
+    -e logout= \
+    -e navigation= \
+    -e next= \
+    -e next_page= \
+    -e Open= \
+    -e out= \
+    -e page= \
+    -e page_url= \
+    -e path= \
+    -e port= \
+    -e redir= \
+    -e redirect= \
+    -e redirect_to= \
+    -e redirect_uri= \
+    -e redirect_url= \
+    -e reference= \
+    -e return= \
+    -e return_path= \
+    -e return_to= \
+    -e returnTo= \
+    -e return_url= \
+    -e rt= \
+    -e rurl= \
+    -e show= \
+    -e site= \
+    -e target= \
+    -e to= \
+    -e uri= \
+    -e url= \
+    -e val= \
+    -e validate= \
+    -e view= \
+    -e window=
 }
 
 function wordpress() {
@@ -151,7 +190,7 @@ function potential() {
  	-e passinfo=
 }
 
-function aws-keys() {
+function aws_keys() {
     grep -HanE $FILE \
 	-e'[^A-Z0-9]|^)(AKIA|A3T|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{12,}'
 }
@@ -170,6 +209,36 @@ function cors() {
 function debug_pages(){
     grep -HnaiE $FILE \
 	-e "Application-Trace|Routing Error|DEBUG\"? ?[=:] ?True|Caused by:|stack trace:|Microsoft .NET Framework|Traceback|[0-9]:in \'|#!/us|WebApplicationException|java\\.lang\\.|phpinfo|swaggerUi|on line [0-9]|SQLSTATE"
+}
+
+function debug_logic() {
+    grep --color -iE $FILE \
+    -e "access" \
+    -e "admin" \
+    -e "dbg" \
+    -e "debug" \
+    -e "edit" \
+    -e "grant" \
+    -e "test" \
+    -e "alter" \
+    -e "clone" \
+    -e "create" \
+    -e "delete" \
+    -e "disable" \
+    -e "enable" \
+    -e "exec" \
+    -e "execute" \
+    -e "load" \
+    -e "make" \
+    -e "modify" \
+    -e "rename" \
+    -e "reset" \
+    -e "shell" \
+    -e "toggle" \
+    -e "adm" \
+    -e "root" \
+    -e "cfg" \
+    -e "config"
 }
 
 function firebase() {
@@ -205,12 +274,12 @@ function fw() {
     -e "artifactory"
 }
 
-function go-functions() {
+function go_functions() {
     grep -HniE $FILE \
     -e "func [a-z0-9_]+\\("
 }
 
-function http-auth() {
+function http_auth() {
     grep -hioaE $FILE \
     -e "[a-z0-9_/\\.:-]+@[a-z0-9-]+\\.[a-z0-9.-]+"
 }
@@ -221,23 +290,23 @@ function ip() {
     #-e "(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])"
 }
 
-function json-sec() {
+function json_sec() {
     grep -harioE $FILE \
     -e "(\\\\?\"|&quot;|%22)[a-z0-9_-]*(api[_-]?key|S3|aws_|secret|passw|auth)[a-z0-9_-]*(\\\\?\"|&quot;|%22): ?(\\\\?\"|&quot;|%22)[^\"&]+(\\\\?\"|&quot;|%22)"
 }
 
-function meg-headers() {
+function meg_headers() {
     grep -hroiE $FILE \
     -e "^\u003c [a-z0-9_\\-]+: .*"
 }
 
-function php-curl() {
-    grep -HnrE $FILE \
+function php_curl() {
+    grep -HnE $FILE \
     -e "CURLOPT_(HTTPHEADER|HEADER|COOKIE|RANGE|REFERER|USERAGENT|PROXYHEADER)"
 }
 
-function php-errors() {
-    grep -HnriE $FILE \
+function php_errors() {
+    grep -HniE $FILE \
     -e "php warning" \
     -e "php error" \
     -e "fatal error" \
@@ -252,26 +321,26 @@ function php-errors() {
     -e "Debug Trace"
 }
 
-function php-serialized() {
-    grep -HnrE $FILE \
+function php_serialized() {
+    grep -HnE $FILE \
     -e "a:[0-9]+:{" \
     -e "O:[0-9]+:\"" \
     -e "s:[0-9]+:\""
 }
 
-function php-sinks() {
-    grep -HnriE $FILE \
+function php_sinks() {
+    grep -HniE $FILE \
     -e "[^a-z0-9_](system|exec|popen|pcntl_exec|eval|create_function|unserialize|file_exists|md5_file|filemtime|filesize|assert) ?\\("
 }
 
-function php-sources() {
-    grep -HnrE $FILE \
+function php_sources() {
+    grep -HnE $FILE \
     -e "\\$_(POST|GET|COOKIE|REQUEST|SERVER|FILES)" \
     -e "php://(input|stdin)"
 }
 
-function s3-buckets() {
-    grep -hrioaE $FILE \
+function s3_buckets() {
+    grep -hioaE $FILE \
     -e "[a-z0-9.-]+\\.s3\\.amazonaws\\.com" \
     -e "[a-z0-9.-]+\\.s3-[a-z0-9-]\\.amazonaws\\.com" \
     -e "[a-z0-9.-]+\\.s3-website[.-](eu|ap|us|ca|sa|cn)" \
@@ -280,23 +349,23 @@ function s3-buckets() {
 }
 
 function sec() {
-    grep -HanriE $FILE \
+    grep -HaniE $FILE \
     -e "(aws_access|aws_secret|api[_-]?key|ListBucketResult|S3_ACCESS_KEY|Authorization:|RSA PRIVATE|Index of|aws_|secret|ssh-rsa AA)"
 }
 
 function servers() {
-    grep -hri $FILE \
+    grep -hi $FILE \
     -e "server: "
 }
 
 function strings() {
-    grep -hroiaE $FILE \
+    grep -hoiaE $FILE \
     -e "\"[^\"]+\"" \
     -e "'[^']+'"
 }
 
 function takeovers() {
-    grep -HnriE $FILE \
+    grep -HniE $FILE \
     -e "There is no app configured at that hostname" \
     -e "NoSuchBucket" \
     -e "No Such Account" \
@@ -325,17 +394,17 @@ function takeovers() {
     -e "Help Center Closed"
 }
 
-function upload-fields() {
-    grep -HnriE $FILE \
+function upload_fields() {
+    grep -HniE $FILE \
     -e "\u003cinput[^\u003e]+type=[\"']?file[\"']?"
 }
 
 function urls() {
-    grep -oriahE $FILE \
+    grep -oiahE $FILE \
     -e "https?://[^\"\\'> ]+"
 }
 
-function no-protocol() {
+function no_protocol() {
     grep -iEo $FILE \
     -e "[^https://|http://].*"
 }
@@ -343,4 +412,151 @@ function no-protocol() {
 function wordlist() {
     grep -iEo $FILE \
     -e "[^https://].+[^-\.@a-z.com]"
+}
+
+function idor() {
+    grep --color -iE $FILE \
+    -e "id" \
+    -e "user" \
+    -e "account" \
+    -e "number" \
+    -e "order" \
+    -e "no" \
+    -e "doc" \
+    -e "key" \
+    -e "email" \
+    -e "group" \
+    -e "profile" \
+    -e "edit" \
+    -e "report"
+}
+
+function lfi() {
+    grep --color -iE $FILE \
+    -e "file" \
+    -e "document" \
+    -e "folder" \
+    -e "root" \
+    -e "path" \
+    -e "pg" \
+    -e "style" \
+    -e "pdf" \
+    -e "template" \
+    -e "php_path" \
+    -e "doc"
+}
+
+function rce() {
+    grep --color -iE $FILE \
+    -e "daemon" \
+    -e "upload" \
+    -e "dir" \
+    -e "execute" \
+    -e "download" \
+    -e "log" \
+    -e "ip" \
+    -e "cli" \
+    -e "cmd"
+}
+
+function sqli() {
+    grep --color -iE $FILE \
+    -e "id" \
+    -e "select" \
+    -e "report" \
+    -e "role" \
+    -e "update" \
+    -e "query" \
+    -e "user" \
+    -e "name" \
+    -e "sort" \
+    -e "where" \
+    -e "search" \
+    -e "params" \
+    -e "process" \
+    -e "row" \
+    -e "view" \
+    -e "table" \
+    -e "from" \
+    -e "sel" \
+    -e "results" \
+    -e "sleep" \
+    -e "fetch" \
+    -e "order" \
+    -e "keyword" \
+    -e "column" \
+    -e "field" \
+    -e "delete" \
+    -e "string" \
+    -e "number" \
+    -e "filter"
+}
+
+function ssrf() {
+    grep --color -iE $FILE \
+    -e "access" \
+    -e "admin" \
+    -e "dbg" \
+    -e "debug" \
+    -e "edit" \
+    -e "grant" \
+    -e "test" \
+    -e "alter" \
+    -e "clone" \
+    -e "create" \
+    -e "delete" \
+    -e "disable" \
+    -e "enable" \
+    -e "exec" \
+    -e "execute" \
+    -e "load" \
+    -e "make" \
+    -e "modify" \
+    -e "rename" \
+    -e "reset" \
+    -e "shell" \
+    -e "toggle" \
+    -e "adm" \
+    -e "root" \
+    -e "cfg" \
+    -e "dest" \
+    -e "redirect" \
+    -e "uri" \
+    -e "path" \
+    -e "continue" \
+    -e "url" \
+    -e "window" \
+    -e "next" \
+    -e "data" \
+    -e "reference" \
+    -e "site" \
+    -e "html" \
+    -e "val" \
+    -e "validate" \
+    -e "domain" \
+    -e "callback" \
+    -e "return" \
+    -e "page" \
+    -e "feed" \
+    -e "host" \
+    -e "port" \
+    -e "to" \
+    -e "out" \
+    -e "view" \
+    -e "dir" \
+    -e "show" \
+    -e "navigation" \
+    -e "open"
+}
+
+function ssti() {
+    grep -iE $FILE \
+    -e "template" \
+    -e "preview" \
+    -e "id" \
+    -e "view" \
+    -e "activity" \
+    -e "name" \
+    -e "content" \
+    -e "redirect"
 }

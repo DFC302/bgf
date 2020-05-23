@@ -31,4 +31,11 @@ complete -W \
 --urls \
 --help \
 --no-protocol \
---wordlist" bgf
+--wordlist \
+--debug-logic \
+--idor \
+--lfi \
+--rce \
+--sqli \
+--ssrf \
+--ssti" bgf

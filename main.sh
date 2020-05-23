@@ -1,5 +1,5 @@
 #!/bin/bash
-. /home/vail/Development/New/bgf/functions.sh
+. ~/bgf/functions.sh
 
 if [ $# -eq 0 ] ; then
 	helpmenu
@@ -33,7 +33,7 @@ else
 				;;
 			--aws-keys)
 				FILE=$2
-				aws-keys
+				aws_keys
 				;;
 			--base-64)
 				FILE=$2
@@ -47,6 +47,10 @@ else
 				FILE=$2
 				debug_pages
 				;;
+			--debug_logic)
+				FILE=$2
+				debug_logic
+				;;
 			--firebase)
 				FILE=$2
 				firebase
@@ -57,11 +61,11 @@ else
 				;;
 			--go-functions)
 				FILE=$2
-				go-functions
+				go_functions
 				;;
 			--http-auth)
 				FILE=$2
-				http-auth
+				http_auth
 				;;
 			--ip)
 				FILE=$2
@@ -69,35 +73,35 @@ else
 				;;
 			--json-sec)
 				FILE=$2
-				json-sec
+				json_sec
 				;;
 			--meg-headers)
 				FILE=$2
-				meg-headers
+				meg_headers
 				;;
 			--php-curl)
 				FILE=$2
-				php-curl
+				php_curl
 				;;
 			--php-errors)
 				FILE=$2
-				php-errors
+				php_errors
 				;;
 			--php-serialized)
 				FILE=$2
-				php-serialized
+				php_serialized
 				;;
 			--php-sinks)
 				FILE=$2
-				php-sinks
+				php_sinks
 				;;
 			--php-sources)
 				FILE=$2
-				php-sources
+				php_sources
 				;;
 			--s3-buckets)
 				FILE=$2
-				s3-buckets
+				s3_buckets
 				;;
 			--sec)
 				FILE=$2
@@ -117,7 +121,7 @@ else
 				;;
 			--upload-fields)
 				FILE=$2
-				upload-fields
+				upload_fields
 				;;
 			--urls)
 				FILE=$2
@@ -125,11 +129,35 @@ else
 				;;
 			--no-protocol)
 				FILE=$2
-				no-protocol
+				no_protocol
 				;;
 			--wordlist)
 				FILE=$2
 				wordlist
+				;;
+			--idor)
+				FILE=$2
+				idor
+				;;
+			--lfi)
+				FILE=$2
+				lfi
+				;;
+			--rce)
+				FILE=$2
+				rce
+				;;
+			--sqli)
+				FILE=$2
+				sqli
+				;;
+			--ssrf)
+				FILE=$2
+				ssrf
+				;;
+			--ssti)
+				FILE=$2
+				ssti
 				;;
 		esac
 		shift
